@@ -1,48 +1,47 @@
+local listOfShapes = {}
+
 function love.load()
-  listOfRectangles = {}
+  tick = require "lib/tick/tick"
+  Object = require("lib/classic/classic")
+  require("shape")
+  require("rectangle")
+  require("circle")
+  
+  tick.recur(createShape, 1)
 end
 
 function love.update(dt)
-  for i = 1,#listOfRectangles do
-    rect = listOfRectangles[i]
-    moveDelta = dt * rect.speed
-    if love.keyboard.isDown("right") then
-      rect.x = rect.x + moveDelta
-    end
-    if love.keyboard.isDown("left") then
-      rect.x = rect.x - moveDelta
-    end
-    if love.keyboard.isDown("up") then
-      rect.y = rect.y - moveDelta
-    end
-    if love.keyboard.isDown("down") then
-      rect.y = rect.y + moveDelta
-    end
+  tick.update(dt)
+  for i = 1,#listOfShapes do
+    local shp = listOfShapes[i]
+    shp:update(dt)
   end
 end
 
 function love.draw()
-  for i = 1,#listOfRectangles do
-    rect = listOfRectangles[i]
-    love.graphics.rectangle("line", rect.x, rect.y, rect.w, rect.h)
+  for i = 1,#listOfShapes do
+    local shp = listOfShapes[i]
+    shp:draw()
   end
 end
 
 function love.keypressed(key)
   if key == "space" then
-    createRect()
+    createShape()
   end
   if key == "escape" then
     love.event.quit()
   end
 end
 
-function createRect()
-  rect = {}
-  rect.w = 100
-  rect.h = 100
-  rect.x = 100
-  rect.y = 100
-  rect.speed = 100
-  table.insert(listOfRectangles, rect)
+function createShape()
+  local x = math.random(250, 350)
+  local y = math.random(200, 300)
+  local shp = nil
+  if math.random() < 0.5 then
+    shp = Rectangle(x, y)
+  else
+    shp = Circle(x, y)
+  end
+  table.insert(listOfShapes, shp)
 end

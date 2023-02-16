@@ -56,3 +56,9 @@
 -- MENTAL NOTE: see caveats of the length operator
 
 -----------------------------------------------
+
+print(test)
+local req_ret = require("example")
+print(test)
+print(test_local)
+print(req_ret)
