@@ -12,15 +12,18 @@ function love.load()
   sheep_w = sheep:getWidth()
   sheep_h = sheep:getHeight()
   
-  tick.recur(createShape, 1)
+  main_rect = Rectangle(100, 100)
+  
+  --tick.recur(createShape, 1)
 end
 
 function love.update(dt)
   tick.update(dt)
-  for i = 1,#listOfShapes do
-    local shp = listOfShapes[i]
-    shp:update(dt)
-  end
+--  for i = 1,#listOfShapes do
+--    local shp = listOfShapes[i]
+--    shp:update(dt)
+--  end
+  main_rect:update(dt)
 end
 
 function love.draw()
@@ -31,8 +34,14 @@ function love.draw()
   
   for i = 1,#listOfShapes do
     local shp = listOfShapes[i]
+    -- draw it different color if rectangle and intersecting
+    if shp:shape() == "rectangle" and shp:collidesWith(main_rect) then
+        love.graphics.setColor(1, 0, 0, 1)
+    end
     shp:draw()
+    love.graphics.setColor(1, 1, 1, 1)
   end
+  main_rect:draw()
 end
 
 function love.keypressed(key)

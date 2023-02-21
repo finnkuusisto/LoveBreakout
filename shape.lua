@@ -21,3 +21,7 @@ function Shape:update(dt)
     self.y = self.y + moveDelta
   end
 end
+
+function Shape:shape()
+  return "shape"
+end
