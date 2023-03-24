@@ -31,3 +31,10 @@ end
 function Player:draw()
   love.graphics.draw(self.image, self.x, self.y)
 end
+
+function Player:keyPressed(key)
+  if key == "space" then
+    local bul_x = self.x + (self.width / 2)
+    table.insert(listOfBullets, Bullet(bul_x, self.y))
+  end
+end

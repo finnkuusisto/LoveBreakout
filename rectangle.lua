@@ -1,9 +1,9 @@
 Rectangle = Shape:extend()
 
-function Rectangle:new(x, y)
+function Rectangle:new(x, y, w, h)
   Rectangle.super.new(self, x, y)
-  self.w = math.random(50, 250)
-  self.h = math.random(50, 250)
+  self.w = w
+  self.h = h
 end
 
 function Rectangle:draw()
