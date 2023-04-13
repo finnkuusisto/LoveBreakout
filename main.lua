@@ -1,40 +1,32 @@
-Object = require("lib/classic/classic")
-require("shape")
-require("rectangle")
-require("player")
-require("enemy")
-require("bullet")
-
 function love.load()
-  player = Player()
-  enemy = Enemy()
-  listOfBullets = {}
+  circle = {}
+  
+  circle.x = 100
+  circle.y = 100
+  circle.radius = 25
+  circle.speed = 200
+  
+  mouse = {}
+  mouse.x = circle.x
+  mouse.y = circle.y
 end
 
 function love.update(dt)
-  player:update(dt)
-  enemy:update(dt)
-  
-  for i,v in ipairs(listOfBullets) do
-    v:update(dt)
-    -- check enemy collision or off-screen
-    local bul_collides = v.colBox:collidesWith(enemy.colBox)
-    local bul_offScreen = v:offScreen()
-    if bul_collides or bul_offScreen then
-      table.remove(listOfBullets, i)
-    end
-  end
+  mouse.x,mouse.y = love.mouse.getPosition()
+  angle = math.atan2(mouse.y - circle.y, mouse.x - circle.x)
 end
 
 function love.draw()
-  player:draw()
-  enemy:draw()
+  love.graphics.circle("line", circle.x, circle.y, circle.radius)
   
-  for i,v in ipairs(listOfBullets) do
-    v:draw()
-  end
+  love.graphics.print("angle: " .. angle, 10, 10)
+  
+  love.graphics.line(circle.x, circle.y, mouse.x, circle.y)
+  love.graphics.line(circle.x, circle.y, circle.x, mouse.y)
+  
+  love.graphics.line(circle.x, circle.y, mouse.x, mouse.y)
 end
 
 function love.keypressed(key)
-  player:keyPressed(key)
+  
 end
